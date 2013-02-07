@@ -12,22 +12,20 @@ public class MyLocationListener implements LocationListener {
 
 	@Override
 	public void onLocationChanged(Location location) {
-		EditText text = (EditText) act.findViewById(R.id.cluesText);
-		text.setText("");
 		// todo move gamer marker
+
 		for (CluePoint point : Global.QUIZZ.getPoints()) {
 			if (point.getStatus().equals(CluePointStatus.OPEN)) {
-				text.append("\n"+point.getClue());
 			} else {
 				float distance = location.distanceTo(point.getLocation());
 				Log.e("distance", String.valueOf(distance));
 				if (distance <= Global.METER_GAMER_TO_CLUE) {
-					// todo display clue
 					point.setStatus(CluePointStatus.OPEN);
-					text.append("\n"+point.getClue());
+					act.callPopUp(point.getClue());
 				}
 			}
 		}
+		act.changeUserPosition(location);
 	}
 
 	@Override

@@ -2,27 +2,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".Maps" >
 
-     
-         <EditText
-             android:id="@+id/cluesText"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_alignParentBottom="true"
-             android:layout_alignParentLeft="true"
-             android:ems="10"
-             android:inputType="textMultiLine" />
+    <com.google.android.maps.MapView
+        android:id="@+id/map_view"
+        android:layout_width="fill_parent"
+        android:layout_height="308dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_weight="0.61"
+        android:apiKey="0sUJJtFjc088E-GOaJO9WxC4B7ksVtU9uf_x29Q"
+        android:clickable="true"
+        android:enabled="true" >
+    </com.google.android.maps.MapView>
 
-         <com.google.android.maps.MapView
-             android:id="@+id/map_view"
-             android:layout_width="fill_parent"
-             android:layout_height="fill_parent"
-             android:layout_alignParentLeft="true"
-             android:layout_alignParentTop="true"
-             android:layout_weight="0.78"
-             android:apiKey="06b7PtFxQuRJjCv-CVhSI2q0roU57EQwFKclRcA"
-             android:clickable="true"
-             android:enabled="true" >
-         </com.google.android.maps.MapView>
+    <Button
+        android:id="@+id/btn_solve"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="goToAnswer"
+        android:text="Solve" />
+
 </LinearLayout>

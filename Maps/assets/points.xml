@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<points reponse="Nîmes">
-    <point latitude="43.838416" longitude="4.349905" clue="Jardin"/>
-    <point latitude="43.837533" longitude="4.355865" clue="Carre"/>
+<points reponse="Nimes">
+    <point latitude="43.838416" longitude="4.349905" clue="Jardin De La Fontaine"/>
+    <point latitude="43.837533" longitude="4.355865" clue="Maison carre"/>
     <point latitude="43.834298" longitude="4.359084" clue="Arenes"/>
-    <point latitude="43.832823" longitude="4.366154" clue="Ecole"/>
-    <point latitude="43.932823" longitude="4.386154" clue="lol"/>
+    <point latitude="43.821462" longitude="4.368707" clue="Ecole Des Mines, EERIE"/>
 </points>

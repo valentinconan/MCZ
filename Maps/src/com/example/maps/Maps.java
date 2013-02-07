@@ -1,6 +1,7 @@
 package com.example.maps;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -11,10 +12,13 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
@@ -28,6 +32,7 @@ public class Maps<MapFragment> extends MapActivity {
 	private MapView m_mapView;
 	private MapController mController;
 	private OverlayClues clues;
+	private OverlayGamer gamer;
 	private GeoSensor sensor;
 
 	@Override
@@ -39,7 +44,7 @@ public class Maps<MapFragment> extends MapActivity {
 		m_mapView.setBuiltInZoomControls(true);
 
 		mController = m_mapView.getController();
-		mController.animateTo(new GeoPoint( 43834298,4359084));
+		mController.animateTo(new GeoPoint( 43830298,4359080));
         mController.setZoom(16);
 		List<Overlay> map_overlays = m_mapView.getOverlays();
 		clues = new OverlayClues(this, getResources().getDrawable(
@@ -48,6 +53,12 @@ public class Maps<MapFragment> extends MapActivity {
 		readConfFile();
 		addPoint2Map();
 		sensor=new GeoSensor(this);
+		
+		gamer = new OverlayGamer(this, getResources().getDrawable(R.drawable.user));
+		map_overlays.add(gamer);
+		gamer.addOverlay(new OverlayItem(new GeoPoint((int)(43.830347*1E6),(int)( 4.352753*1E6)), "I am a Gamer", "Gamer's name"));
+
+
 	}
 
 	private void addPoint2Map() {
@@ -56,6 +67,14 @@ public class Maps<MapFragment> extends MapActivity {
 					point.getClue(), "Item 1 description");
 			clues.addOverlay(item);
 		}
+	}
+	
+	public void changeUserPosition(Location location){
+		
+		if(gamer.getItem(0)!=null)
+			gamer.removeItem(0);
+
+		gamer.addOverlay(new OverlayItem(new GeoPoint((int)(location.getLatitude()*1E6),(int)( location.getLongitude()*1E6)), "I am a Gamer", "Gamer's name"));
 	}
 
 	@Override
@@ -94,7 +113,13 @@ public class Maps<MapFragment> extends MapActivity {
 		  } 
 		 
 	}
+	
+	public void goToAnswer(View v){
+		Intent intent = new Intent(v.getContext(),Answer.class);
+		startActivity(intent);		
+	}
 
+	
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
@@ -102,6 +127,14 @@ public class Maps<MapFragment> extends MapActivity {
 		sensor.onStop();
 	}
 
+
+	public void callPopUp(String message) {
+		
+		PopupInformation newFragment = new PopupInformation();
+	    newFragment.setMessage(message);
+	    newFragment.show(getFragmentManager(),"InformationPopup");
+	}
+	
 	@Override
 	protected void onPause() {
 		// TODO Auto-generated method stub
