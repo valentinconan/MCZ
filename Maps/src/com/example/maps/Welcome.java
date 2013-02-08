@@ -11,6 +11,7 @@ public class Welcome extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Global.addRunningActivity(this);
 		setContentView(R.layout.activity_welcome);
 	}
 
@@ -25,5 +26,13 @@ public class Welcome extends Activity {
 		startActivityForResult(intent, 0);
 		this.finish();
 	}
+
+	@Override
+	public void onBackPressed() {
+		Global.finishAllRunningActivitiesExceptOne(this);
+		this.finish();
+	}
+	
+	
 
 }

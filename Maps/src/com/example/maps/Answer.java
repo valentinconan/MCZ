@@ -23,6 +23,7 @@ public class Answer extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);//TODO VALENTIN VERIFIER CAR savedInstance EST NULL ET CE N EST PAS NORMAL
 		setContentView(R.layout.activity_answer);
+		Global.addRunningActivity(this);
 		refreshClueList();
 	}
 
@@ -91,6 +92,12 @@ public class Answer extends Activity {
 			callPopupConfirmExit();
 		}
 		return true;
+	}
+
+	@Override
+	protected void onDestroy() {
+		Global.removeRunningActivity(this);
+		super.onDestroy();
 	}
 	
 	

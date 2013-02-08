@@ -41,6 +41,7 @@ public class Maps<MapFragment> extends MapActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_maps);
+		Global.addRunningActivity(this);
 
 		m_mapView = (MapView) findViewById(R.id.map_view);
 		m_mapView.setBuiltInZoomControls(true);
@@ -155,7 +156,7 @@ public class Maps<MapFragment> extends MapActivity {
 
 	@Override
 	protected void onDestroy() {
-		// TODO Auto-generated method stub
+		Global.removeRunningActivity(this);
 		super.onDestroy();
 		sensor.onStop();
 	}
