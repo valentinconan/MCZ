@@ -32,8 +32,11 @@ public class Maps<MapFragment> extends MapActivity {
 	private MapView m_mapView;
 	private MapController mController;
 	private OverlayClues clues;
+	private List<Overlay> map_overlays;
 	private OverlayGamer gamer;
 	private GeoSensor sensor;
+	private Location location;
+	private boolean positionSet=false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,37 +47,69 @@ public class Maps<MapFragment> extends MapActivity {
 		m_mapView.setBuiltInZoomControls(true);
 
 		mController = m_mapView.getController();
-		mController.animateTo(new GeoPoint( 43830298,4359080));
-        mController.setZoom(16);
-		List<Overlay> map_overlays = m_mapView.getOverlays();
+		map_overlays = m_mapView.getOverlays();
 		clues = new OverlayClues(this, getResources().getDrawable(
 				R.drawable.blue_dot));
-		map_overlays.add(clues);		
+		map_overlays.add(clues);
 		readConfFile();
-		addPoint2Map();
-		sensor=new GeoSensor(this);
-		
-		gamer = new OverlayGamer(this, getResources().getDrawable(R.drawable.user));
-		map_overlays.add(gamer);
-		gamer.addOverlay(new OverlayItem(new GeoPoint((int)(43.830347*1E6),(int)( 4.352753*1E6)), "I am a Gamer", "Gamer's name"));
+		sensor = new GeoSensor(this);
 
 
 	}
 
 	private void addPoint2Map() {
-		for (CluePoint point : Global.QUIZZ.getPoints()) {
-			OverlayItem item = new OverlayItem(Utils.LocationToGeo(point.getLocation()),
-					point.getClue(), "Item 1 description");
-			clues.addOverlay(item);
-		}
-	}
-	
-	public void changeUserPosition(Location location){
-		
-		if(gamer.getItem(0)!=null)
-			gamer.removeItem(0);
 
-		gamer.addOverlay(new OverlayItem(new GeoPoint((int)(location.getLatitude()*1E6),(int)( location.getLongitude()*1E6)), "I am a Gamer", "Gamer's name"));
+		gamer = new OverlayGamer(this, getResources().getDrawable(
+				R.drawable.user));
+		gamer.addOverlay(new OverlayItem(new GeoPoint((int) ( location.getLatitude()* 1E6),
+				(int) ( location.getLongitude()* 1E6)), "I am a Gamer", "Gamer's name"));
+		map_overlays.add(gamer);
+		
+		int minLat = Integer.MAX_VALUE;
+		int maxLat = Integer.MIN_VALUE;
+		int minLon = Integer.MAX_VALUE;
+		int maxLon = Integer.MIN_VALUE;
+
+		maxLat = Math.max((int) ( location.getLatitude()* 1E6), maxLat);
+		minLat = Math.min((int) ( location.getLatitude()* 1E6), minLat);
+		maxLon = Math.max((int) ( location.getLongitude()* 1E6), maxLon);
+		minLon = Math.min((int) ( location.getLongitude()* 1E6), minLon);
+		
+		for (CluePoint point : Global.QUIZZ.getPoints()) {
+			OverlayItem item = new OverlayItem(Utils.LocationToGeo(point
+					.getLocation()), point.getClue(), "Item 1 description");
+			clues.addOverlay(item);
+			int lat = (int) (point.getLocation().getLatitude() * 1E6);
+			int lon = (int) (point.getLocation().getLongitude() * 1E6);
+
+			maxLat = Math.max(lat, maxLat);
+			minLat = Math.min(lat, minLat);
+			maxLon = Math.max(lon, maxLon);
+			minLon = Math.min(lon, minLon);
+		}
+		
+		double fitFactor = 1.5;
+		mController.zoomToSpan((int) (Math.abs(maxLat - minLat) * fitFactor),
+				(int) (Math.abs(maxLon - minLon) * fitFactor));
+		mController.animateTo(new GeoPoint((maxLat + minLat) / 2,
+				(maxLon + minLon) / 2));
+		
+	}
+
+	public void changeUserPosition(Location location) {
+		this.location=location;
+		m_mapView.invalidate();// refresh the map
+
+		if(!positionSet){
+			addPoint2Map();
+			positionSet=true;
+		}
+
+		gamer.addOverlay(new OverlayItem(new GeoPoint((int) (location
+				.getLatitude() * 1E6), (int) (location.getLongitude() * 1E6)),
+				"I am a Gamer", "Gamer's name"));
+		if (gamer.getItem(0) != null)
+			gamer.removeItem(0);
 	}
 
 	@Override
@@ -91,35 +126,34 @@ public class Maps<MapFragment> extends MapActivity {
 	}
 
 	private void readConfFile() {
-		 
-		  // sax stuff 
-		  try { 
-		    SAXParserFactory spf = SAXParserFactory.newInstance(); 
-		    SAXParser sp = spf.newSAXParser(); 
-		    XMLReader xr = sp.getXMLReader(); 
-		 
-		    DataHandler dataHandler = new DataHandler(); 
-		    xr.setContentHandler(dataHandler); 
-		    xr.parse(new InputSource(getAssets().open("points.xml")));
-		    Global.QUIZZ=dataHandler.getQuizz();
-		    //data = dataHandler.getData(); 
-		 
-		  } catch(ParserConfigurationException pce) { 
-		    Log.e("SAX XML", "sax parse error", pce); 
-		  } catch(SAXException se) { 
-		    Log.e("SAX XML", "sax error", se); 
-		  } catch(IOException ioe) { 
-		    Log.e("SAX XML", "sax parse io error", ioe); 
-		  } 
-		 
-	}
-	
-	public void goToAnswer(View v){
-		Intent intent = new Intent(v.getContext(),Answer.class);
-		startActivity(intent);		
+
+		// sax stuff
+		try {
+			SAXParserFactory spf = SAXParserFactory.newInstance();
+			SAXParser sp = spf.newSAXParser();
+			XMLReader xr = sp.getXMLReader();
+
+			DataHandler dataHandler = new DataHandler();
+			xr.setContentHandler(dataHandler);
+			xr.parse(new InputSource(getAssets().open("points.xml")));
+			Global.QUIZZ = dataHandler.getQuizz();
+			// data = dataHandler.getData();
+
+		} catch (ParserConfigurationException pce) {
+			Log.e("SAX XML", "sax parse error", pce);
+		} catch (SAXException se) {
+			Log.e("SAX XML", "sax error", se);
+		} catch (IOException ioe) {
+			Log.e("SAX XML", "sax parse io error", ioe);
+		}
+
 	}
 
-	
+	public void goToAnswer(View v) {
+		Intent intent = new Intent(v.getContext(), Answer.class);
+		startActivity(intent);
+	}
+
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
@@ -127,14 +161,13 @@ public class Maps<MapFragment> extends MapActivity {
 		sensor.onStop();
 	}
 
-
 	public void callPopUp(String message) {
-		
+
 		PopupInformation newFragment = new PopupInformation();
-	    newFragment.setMessage(message);
-	    newFragment.show(getFragmentManager(),"InformationPopup");
+		newFragment.setMessage(message);
+		newFragment.show(getFragmentManager(), "InformationPopup");
 	}
-	
+
 	@Override
 	protected void onPause() {
 		// TODO Auto-generated method stub
@@ -155,5 +188,5 @@ public class Maps<MapFragment> extends MapActivity {
 		super.onStop();
 		sensor.onStop();
 	}
-	
+
 }

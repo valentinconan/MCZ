@@ -26,6 +26,7 @@ public class MyLocationListener implements LocationListener {
 			}
 		}
 		act.changeUserPosition(location);
+		
 	}
 
 	@Override
