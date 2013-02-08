@@ -1,10 +1,9 @@
 package com.example.maps;
 
-import android.os.Bundle;
 import android.app.Activity;
-import android.app.DialogFragment;
-import android.util.Log;
+import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
@@ -73,5 +72,20 @@ public class Answer extends Activity {
 	public void goBack(View v){
 		finish();
 	}
+
+	@Override
+	public void onBackPressed() {
+		
+	}
+
+	@Override
+	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+		if(featureId == R.id.menu_exit){
+
+		}
+		return true;
+	}
+	
+	
 	
 }

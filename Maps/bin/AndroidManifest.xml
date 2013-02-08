@@ -31,8 +31,12 @@
 
         <activity
             android:name="com.example.maps.Answer"
-            android:label="@string/title_activity_answer" > 
+            android:label="@string/title_activity_answer" >
         </activity>
-        
-    </application> 
+        <activity
+            android:name="com.example.maps.Welcome"
+            android:label="@string/title_activity_welcome" >
+        </activity>
+    </application>
+
 </manifest>

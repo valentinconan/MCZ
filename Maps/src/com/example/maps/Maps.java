@@ -1,7 +1,6 @@
 package com.example.maps;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -13,11 +12,11 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.google.android.maps.GeoPoint;
@@ -154,6 +153,19 @@ public class Maps<MapFragment> extends MapActivity {
 		// TODO Auto-generated method stub
 		super.onStop();
 		sensor.onStop();
+	}
+	
+	@Override
+	public void onBackPressed() {
+		
+	}
+
+	@Override
+	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+		if(featureId == R.id.menu_exit){
+			
+		}
+		return true;
 	}
 	
 }

@@ -8,8 +8,6 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import android.location.Location;
 
-import com.google.android.maps.GeoPoint;
-
 public class DataHandler extends DefaultHandler { 
 	  
 	 

@@ -1,7 +1,5 @@
 package com.example.maps;
 
-import com.google.android.maps.GeoPoint;
-
 import android.location.Location;
 
 public class CluePoint {
