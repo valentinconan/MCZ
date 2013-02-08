@@ -71,6 +71,8 @@ public class Maps<MapFragment> extends MapActivity {
 	
 	public void changeUserPosition(Location location){
 		
+		m_mapView.invalidate();//refresh the map
+		
 		if(gamer.getItem(0)!=null)
 			gamer.removeItem(0);
 

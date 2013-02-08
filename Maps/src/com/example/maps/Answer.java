@@ -37,7 +37,7 @@ public class Answer extends Activity {
 		EditText text = (EditText) findViewById(R.id.cluesText);
 		text.setText("Use thoses clues to find the magic word !\n\n");
 //		for (int i = 0; i < 100; i++) { //TODO enlever test
-//			text.append("\n"+"test "+i);
+//		text.append("\n"+"test "+i);
 //		}
 		int i=0;
 		if(Global.QUIZZ.getPoints().size()>0){
