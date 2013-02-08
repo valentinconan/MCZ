@@ -190,17 +190,19 @@ public class Maps<MapFragment> extends MapActivity {
 	
 	@Override
 	public void onBackPressed() {
-		
+		callPopupConfirmExit();
+	}
+	
+	private void callPopupConfirmExit(){
+		PopupConfirmExit pCE = new PopupConfirmExit(getString(R.string.message_confirm_exit), getString(R.string.title_confirm_exit), this);
+		pCE.show(getFragmentManager(),"ConfirmExitPopup");
 	}
 
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
 		if(item.getItemId() == R.id.menu_exit){
-			Intent intent = new Intent(this.getApplicationContext(),Welcome.class);
-			startActivity(intent);
-			this.finish();
+			callPopupConfirmExit();
 		}
 		return true;
 	}
-	
 }

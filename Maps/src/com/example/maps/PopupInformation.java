@@ -25,7 +25,9 @@ public class PopupInformation extends DialogFragment {
         builder.setMessage(message)
                .setPositiveButton(R.string.btn_popup_ok, new DialogInterface.OnClickListener() {
                    public void onClick(DialogInterface dialog, int id) {
-                       // FIRE ZE MISSILES!
+	           			if(message.equals(getActivity().getString(R.string.great_response))){
+	           				Global.goToWelcomeActivity(getActivity());
+	           			}
                    }
                });
         // Create the AlertDialog object and return it

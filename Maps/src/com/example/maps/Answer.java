@@ -54,11 +54,11 @@ public class Answer extends Activity {
 		EditText field = (EditText)findViewById(R.id.userAnswer);
 		
 		if( (Global.QUIZZ.getReponse()).equals(field.getText().toString()) ){
-			callPopUp("Well played ! Game Over");
-			//TODO VALENTIN retour à l'activité de depart
+			callPopUp(this.getString(R.string.great_response));
+			
 		}
 		else 
-			callPopUp("Bad for you, try again !");
+			callPopUp(this.getString(R.string.wrong_response));
 		field.setText("");
 		
 	}
@@ -68,6 +68,7 @@ public class Answer extends Activity {
 		PopupInformation newFragment = new PopupInformation();
 	    newFragment.setMessage(message);
 	    newFragment.show(getFragmentManager(),"InformationPopup");
+	    //newFragment.
 	}
 	
 	public void goBack(View v){
@@ -76,15 +77,18 @@ public class Answer extends Activity {
 
 	@Override
 	public void onBackPressed() {
-		
+		callPopupConfirmExit();
+	}
+	
+	private void callPopupConfirmExit(){
+		PopupConfirmExit pCE = new PopupConfirmExit(getString(R.string.message_confirm_exit), getString(R.string.title_confirm_exit), this);
+		pCE.show(getFragmentManager(),"ConfirmExitPopup");
 	}
 
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
 		if(item.getItemId() == R.id.menu_exit){
-			Intent intent = new Intent(this.getApplicationContext(),Welcome.class);
-			startActivity(intent);
-			this.finish();
+			callPopupConfirmExit();
 		}
 		return true;
 	}

@@ -8,6 +8,15 @@
     <string name="btn_popup_ok">OK</string>
     <string name="title_activity_welcome">Welcome</string>
     
+    <string name="great_response">Well played ! Game Over</string>
+    <string name="wrong_response">Try again!</string>
+    
+    <string name="message_confirm_exit">Are you sure to want to quit the application ?</string>
+    <string name="title_confirm_exit">Exit ?</string>
+    
+    <string name="btn_popup_yes">Yes</string>
+    <string name="btn_popup_no">No</string>
+    
     <string name="button_start">Start game</string>
     <string name="text_disclamer">This is the disclamer and the user manual\nClick on start button to begin.</string>
 
