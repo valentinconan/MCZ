@@ -162,8 +162,10 @@ public class Maps<MapFragment> extends MapActivity {
 
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
-		if(featureId == R.id.menu_exit){
-			
+		if(item.getItemId() == R.id.menu_exit){
+			Intent intent = new Intent(this.getApplicationContext(),Welcome.class);
+			startActivity(intent);
+			this.finish();
 		}
 		return true;
 	}

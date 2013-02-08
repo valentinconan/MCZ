@@ -1,6 +1,7 @@
 package com.example.maps;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -80,8 +81,10 @@ public class Answer extends Activity {
 
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
-		if(featureId == R.id.menu_exit){
-
+		if(item.getItemId() == R.id.menu_exit){
+			Intent intent = new Intent(this.getApplicationContext(),Welcome.class);
+			startActivity(intent);
+			this.finish();
 		}
 		return true;
 	}

@@ -23,6 +23,7 @@ public class Welcome extends Activity {
 	public void onClickButtonStart(View v){
 		Intent intent = new Intent(v.getContext(),Maps.class);
 		startActivityForResult(intent, 0);
+		this.finish();
 	}
 
 }
